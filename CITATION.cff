@@ -13,3 +13,4 @@ license:
   - CC-BY-4.0
 abstract: "Reproducible single-resource allocation experiments, bounded-error and ramp diagnostics, paired timing and fairness analyses. Manuscript sources are excluded."
 repository-code: "https://github.com/MadBezoui/priority-preserving-allocation"
+doi: 10.5281/zenodo.23457662

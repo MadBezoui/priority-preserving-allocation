@@ -62,8 +62,14 @@ Never add manuscript sources to any public Git branch, tag, release, archive or 
 
 Run `.venv/bin/python scripts/build_repro_archive.py` to create the separate DOI-deposit package including explicitly listed manifests and numerical outputs. Its complete allowlist and checksum inventory are audited locally. This script does not upload or publish.
 
-## GitHub → Zenodo
+## Releases and citation
 
-The `.zenodo.json` file describes the software for Zenodo; its description explains the separate CC BY license for original results and documentation. No manuscript source is present in this repository or its release files.
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23457662.svg)](https://doi.org/10.5281/zenodo.23457662)
 
-To obtain an archival DOI, enable `MadBezoui/priority-preserving-allocation` in your [Zenodo GitHub settings](https://zenodo.org/account/settings/github/), then publish the prepared draft release `v0.2.0` on GitHub. Check the resulting record and licenses after Zenodo finishes importing. A draft release alone does not create a DOI. Add the actual DOI to the citation metadata after it exists; do not use a placeholder DOI. See [Zenodo's release instructions](https://help.zenodo.org/docs/github/archive-software/github-upload/).
+- **v0.2.0** — [GitHub release](https://github.com/MadBezoui/priority-preserving-allocation/releases/tag/v0.2.0) · [Zenodo archival record](https://doi.org/10.5281/zenodo.23457662)
+
+Bezoui, M. (2026). *Priority-preserving projected resource allocation: reproducibility package* (Version 0.2.0). Zenodo. https://doi.org/10.5281/zenodo.23457662
+
+The archived release contains the experimental software, manifests and numerical outputs. All 50 archived files were checked against the released Git tree and the package checksum manifest. Manuscript sources and the paper PDF are excluded. Code is MIT; original results and documentation are CC BY 4.0.
+
+The current main branch includes citation metadata added after DOI assignment. The v0.2.0 tag and Zenodo archive retain the immutable release snapshot. `.zenodo.json` supplies metadata for future connected releases; update version metadata before a new release.

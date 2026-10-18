@@ -1,13 +1,13 @@
 {
   "package_version": "0.2.0",
   "files_sha256": {
-    "README.md": "21a1d9e749bbe9e8dabaadab25a48fd2ae7126368455eeb8238e3621ca53cf47",
+    "README.md": "460482a9ede67b28fbba2abc1234a5c81bd7dc3c2476c6e300c05d8c667147e8",
     "pyproject.toml": "2d9d0c3d720c0d9c6d287065317b15855eff7cc0bdd3d3281b81f1c910d2c11d",
     "requirements-lock.txt": "2fda34e5aaa4ddf44a7e87c09b32fde2fdd6db4f0470aec6b1df343d91c23380",
     "DATA_SOURCES.md": "29cd8015f4dd1540edbd559b2972928d2356e9a9c077ef9cc764b344f8349843",
     "LICENSE": "3385b18d92b7a63652ad311167ba94044c0e27b0a39b65297874e554035d3452",
     "LICENSE-DATA.md": "5ef5666949cf188b9025e6f7fd1761454ebd0f065269d34eb3310f3ce6f10fc3",
-    "CITATION.cff": "2afc53a890552a3e70a2f9abbdc68662f5bfaf1e35a35a4316ccd63c1d4ac4d8",
+    "CITATION.cff": "0340f2d00b44bd02a80e75558e851811271af6b8b3f1e7fd9e68936807879276",
     ".zenodo.json": "b05e9ef77add2ee0e4edf3c98c3f603951e092820c8fa4945c2e6d394ff481d4",
     ".gitignore": "862621e51643c3bf78241f564ddf4b07ed0e3fe56f06c4270662524730bc58a7",
     "src/abo/__init__.py": "b27026c43432230f5241e886a1745fd522b7d39b9dc01c048236b6f20695a07c",
@@ -51,5 +51,6 @@
     "results/review_summary.json": "f12807c9310d9ea023384bf8da41b53ba5b99f66589cc2f33ac18f91aff4368c",
     "results/review_timing_batches.csv": "f0ddd4b5ed3d83ccb0b467b78b0ef21f79a8dbf62866e55b2c0a7fd71e34d9dc"
   },
-  "excluded": "manuscript, bibliography, templates, editorial documents, PDF, original dataset archives, Git history"
+  "excluded": "manuscript, bibliography, templates, editorial documents, PDF, original dataset archives, Git history",
+  "snapshot_note": "Current main: citation-only metadata update after v0.2.0 DOI assignment. Immutable release tag retains original manifest."
 }
