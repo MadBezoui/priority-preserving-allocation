@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "Please cite this experiment package if you use its code or results."
+title: "Priority-preserving projected resource allocation: reproducibility package"
+type: software
+version: 0.2.0
+date-released: '2026-10-18'
+authors:
+  - family-names: Bezoui
+    given-names: Madani
+    affiliation: "CESI LINEACT (UR 7527), Campus de Nancy, France"
+license:
+  - MIT
+  - CC-BY-4.0
+abstract: "Reproducible single-resource allocation experiments, bounded-error and ramp diagnostics, paired timing and fairness analyses. Manuscript sources are excluded."
+repository-code: "https://github.com/MadBezoui/priority-preserving-allocation"

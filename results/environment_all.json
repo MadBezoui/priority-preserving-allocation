@@ -1,0 +1,26 @@
+{
+  "seed": 20261018,
+  "part": "all",
+  "elapsed_seconds": 49.75142216682434,
+  "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "numpy": "2.5.4",
+  "scipy": "1.18.1",
+  "pandas": "3.0.6",
+  "platform": "macOS-27.2-arm64-arm-64bit",
+  "processor": "arm",
+  "threads": {
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1"
+  },
+  "source_sha256": {
+    "scripts/analyze.py": "9bb976b282d71ac2258ed30d91f4f95dbd0dbf6555c8e6590185a4144aaac96f",
+    "scripts/build_code_archive.py": "a5622402fa53632d1a4e5b1334d3123ef288bee8f08ea45f9e0d36cdad7c837f",
+    "scripts/download_data.py": "aa70fd878857b158b32fd22abd0f58c4f7f9bed7849f8fa4cc32cf2093c4af06",
+    "scripts/robustness.py": "2a0e5228f5b577ea354e550500c99f02294fe0807b6e64c0edefa46acb1722a5",
+    "scripts/run_experiments.py": "0e27090c61f065ce920e98b4f1e581f548a3a74d3a978f4cba1295fdbddb81fc",
+    "scripts/verify_outputs.py": "926951aba0e7f0a744718d33901f1c171a733b1954daf9fa3e0f1a586018f206",
+    "src/abo/__init__.py": "b27026c43432230f5241e886a1745fd522b7d39b9dc01c048236b6f20695a07c",
+    "src/abo/allocation.py": "84a94b0765a9259e347c017ffcdb61186bdf084df3781e9302f1ae273ec78750"
+  }
+}

@@ -1,0 +1,9 @@
+dataset,metric,convention,percent_change,ci_low,ci_high
+electricity,variation,mean_of_ratios,-39.11585369617291,-40.330802866850675,-37.94047791037209
+electricity,variation,ratio_of_means,-39.10184495576333,-40.317053626094335,-37.93450811812183
+electricity,quadratic_shortfall,mean_of_ratios,3.3200988167677123,2.7026589933985674,3.9871188293555613
+electricity,quadratic_shortfall,ratio_of_means,2.6411066570368957,2.238739899210991,3.178236749081429
+bike,variation,mean_of_ratios,0.0,0.0,0.0
+bike,variation,ratio_of_means,0.0,0.0,0.0
+bike,quadratic_shortfall,mean_of_ratios,0.0,0.0,0.0
+bike,quadratic_shortfall,ratio_of_means,0.0,0.0,0.0

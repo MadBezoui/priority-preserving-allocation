@@ -1,0 +1,139 @@
+{
+  "classification": "post-review exploratory diagnostics",
+  "seed": 20261019,
+  "fairness": {
+    "exact": {
+      "jain": 0.6584083898057398,
+      "ratio_sd": 0.14819605515940532
+    },
+    "feedback": {
+      "jain": 0.6741690627734621,
+      "ratio_sd": 0.14647587445585292
+    },
+    "proportional": {
+      "jain": 1.0,
+      "ratio_sd": 6.023666390574919e-17
+    }
+  },
+  "relative_effects": [
+    {
+      "dataset": "electricity",
+      "metric": "variation",
+      "convention": "mean_of_ratios",
+      "percent_change": -39.11585369617291,
+      "ci_low": -40.330802866850675,
+      "ci_high": -37.94047791037209
+    },
+    {
+      "dataset": "electricity",
+      "metric": "variation",
+      "convention": "ratio_of_means",
+      "percent_change": -39.10184495576333,
+      "ci_low": -40.317053626094335,
+      "ci_high": -37.93450811812183
+    },
+    {
+      "dataset": "electricity",
+      "metric": "quadratic_shortfall",
+      "convention": "mean_of_ratios",
+      "percent_change": 3.3200988167677123,
+      "ci_low": 2.7026589933985674,
+      "ci_high": 3.9871188293555613
+    },
+    {
+      "dataset": "electricity",
+      "metric": "quadratic_shortfall",
+      "convention": "ratio_of_means",
+      "percent_change": 2.6411066570368957,
+      "ci_low": 2.238739899210991,
+      "ci_high": 3.178236749081429
+    },
+    {
+      "dataset": "bike",
+      "metric": "variation",
+      "convention": "mean_of_ratios",
+      "percent_change": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    {
+      "dataset": "bike",
+      "metric": "variation",
+      "convention": "ratio_of_means",
+      "percent_change": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    {
+      "dataset": "bike",
+      "metric": "quadratic_shortfall",
+      "convention": "mean_of_ratios",
+      "percent_change": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    },
+    {
+      "dataset": "bike",
+      "metric": "quadratic_shortfall",
+      "convention": "ratio_of_means",
+      "percent_change": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 0.0
+    }
+  ],
+  "robustness": {
+    "observed": {
+      "high_shortage": 0.006388353935131578,
+      "ordinary_shortage": 0.3739674235169004,
+      "marginal_changed_fraction": 0.015885416666666666,
+      "true_marginal_counts": {
+        "2": 7680
+      },
+      "used_marginal_counts": {
+        "2": 7558,
+        "1": 90,
+        "0": 32
+      }
+    },
+    "conservative": {
+      "high_shortage": 0.02818181293082835,
+      "ordinary_shortage": 0.444960882809853,
+      "marginal_changed_fraction": 0.08697916666666666,
+      "true_marginal_counts": {
+        "2": 7680
+      },
+      "used_marginal_counts": {
+        "2": 7012,
+        "1": 636,
+        "0": 32
+      }
+    }
+  },
+  "data_certificate": {
+    "checks": 2000,
+    "switches": 1368,
+    "max_increment_excess": -9.517004747127071
+  },
+  "timing": {
+    "original_paired_mean_us": [
+      1.6563333333333337,
+      -0.3187858333333333,
+      2.9667541666666666
+    ],
+    "original_paired_median_us": [
+      2.1869999999999976,
+      1.4380000000000024,
+      2.833500000000001
+    ],
+    "original_difference_q05_q95_us": [
+      -1.7138999999999966,
+      4.843499999999998
+    ],
+    "batched_affine_median_us": 1.389795,
+    "batched_paired_difference_us": [
+      1.4291699999999956,
+      0.386250000000004,
+      2.0439599999999984
+    ]
+  }
+}

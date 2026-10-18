@@ -1,0 +1,28 @@
+{
+  "electricity": {
+    "url": "https://archive.ics.uci.edu/static/public/321/electricityloaddiagrams20112014.zip",
+    "doi": "10.24432/C58C86",
+    "creator": "Artur Trindade (2015)",
+    "expected_sha256": "f6c4d0e0df12ecdb9ea008dd6eef3518adb52c559d04a9bac2e1b81dcfc8d4e1",
+    "license": "CC BY 4.0",
+    "page": "https://archive.ics.uci.edu/dataset/321/electricityloaddiagrams20112014",
+    "sha256": "f6c4d0e0df12ecdb9ea008dd6eef3518adb52c559d04a9bac2e1b81dcfc8d4e1",
+    "bytes": 261335609,
+    "retrieved_utc": "2026-10-18T00:11:28.551067+00:00",
+    "verified_utc": "2026-10-18T00:22:23.156947+00:00",
+    "cache_reused": true
+  },
+  "bike": {
+    "url": "https://archive.ics.uci.edu/static/public/275/bike+sharing+dataset.zip",
+    "doi": "10.24432/C5W894",
+    "creator": "Hadi Fanaee-T (2013)",
+    "expected_sha256": "b70182d0d0508e9abbb79306ce5c0cec34869000f8220175ac83d11dbe845401",
+    "license": "CC BY 4.0",
+    "page": "https://archive.ics.uci.edu/dataset/275/bike+sharing+dataset",
+    "sha256": "b70182d0d0508e9abbb79306ce5c0cec34869000f8220175ac83d11dbe845401",
+    "bytes": 279992,
+    "retrieved_utc": "2026-10-18T00:11:29.796360+00:00",
+    "verified_utc": "2026-10-18T00:22:23.158430+00:00",
+    "cache_reused": true
+  }
+}

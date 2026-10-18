@@ -1,0 +1,9 @@
+{
+  "replay_rows": 6480,
+  "synthetic_rows": 2240,
+  "blocks": 54,
+  "max_certificate_excess": -0.324431235761358,
+  "max_capacity_excess": 2.131628207280301e-14,
+  "qp_failures": 0,
+  "max_qp_difference": 4.0462134999197374e-06
+}
