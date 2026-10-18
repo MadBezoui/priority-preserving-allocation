@@ -2,7 +2,7 @@
 
 A reproducible computational study of sampled projected feedback, exact compiled allocation, delay correction and strict aggregate service priorities. This is a research implementation, not a certified physical controller.
 
-The full local workspace contains a manuscript and editorial materials. Those materials are private and excluded from the experiment-code archive. The prepared reproducibility archive excludes them. See the deposit status in the local submission checklist; this source tree does not imply that a DOI has been issued.
+The full local workspace contains a manuscript and editorial materials. Those materials are private and excluded from the experiment-code archive. Code, manifests and numerical results are published separately; see Releases and citation below.
 
 ## Reproduce the computational study
 
