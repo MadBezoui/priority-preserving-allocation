@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-25",
+  "script_sha256": "62c06496add94c8a709f071ca6d8c772b2201c011e124c68a5a57df666eb7ce3",
+  "input_sha256": {
+    "weights.csv": "2241d0d663092947d66f1ece4d06a21948ce6a101d2aeb14671c62bd34911791",
+    "offline.csv": "aa719e7fc88d0e4e7493a5d8eeb59d2c56eb493f9cad6cf1dffe1d000bd0bd92",
+    "ramps.csv": "d44fef0a9ac7aed960730bf4013032e8ef5d7163f0f89d1d6c11157bf26e7ff6",
+    "static_recovery_epochs.csv": "799150b254d7af50742de494d9c2746c05df0b59abc311de442f60997e78eba8"
+  },
+  "figures": {
+    "weighted_horizon.pdf": "8745c75b2061d90c79547b8ac1ebfa9935ae9c7537c27b96b51b47341e0faa6a",
+    "closed_loop.pdf": "c8247a4bdc276a153c3256ee7308de2b8511e406e3773ed49e456d3f8e8f56db"
+  }
+}

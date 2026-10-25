@@ -1,9 +1,9 @@
 cff-version: 1.2.0
-message: "Please cite this experiment package if you use its code or results."
+message: "Please cite the version-specific Zenodo record linked from the v0.3.0 GitHub release."
 title: "Priority-preserving projected resource allocation: reproducibility package"
 type: software
-version: 0.2.0
-date-released: '2026-10-18'
+version: 0.3.0
+date-released: '2026-10-25'
 authors:
   - family-names: Bezoui
     given-names: Madani
@@ -11,6 +11,5 @@ authors:
 license:
   - MIT
   - CC-BY-4.0
-abstract: "Reproducible single-resource allocation experiments, bounded-error and ramp diagnostics, paired timing and fairness analyses. Manuscript sources are excluded."
+abstract: "Reproducible allocation experiments with weighted metrics, hierarchical capacities, closed-loop ramps and hindsight cost certificates, together with the archived baseline results. Manuscript sources are excluded."
 repository-code: "https://github.com/MadBezoui/priority-preserving-allocation"
-doi: 10.5281/zenodo.23457662

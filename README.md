@@ -2,7 +2,7 @@
 
 A reproducible computational study of sampled projected feedback, exact compiled allocation, delay correction and strict aggregate service priorities. This is a research implementation, not a certified physical controller.
 
-The full local workspace contains a manuscript and editorial materials. Those materials are private and excluded from the experiment-code archive. Code, manifests and numerical results are published separately; see Releases and citation below.
+The full local workspace contains a manuscript and editorial materials. Those materials are private and excluded from the experiment-code archive. The baseline code, manifests and results have a separate archived release. Version v0.3.0 adds the extension experiments. See Releases and citation below.
 
 ## Reproduce the computational study
 
@@ -30,7 +30,7 @@ The full runner's `all` mode records `environment_all.json`; individual modes re
 
 ## Model and comparisons
 
-Current nonnegative requests and capacity define an instantaneous divisible-resource allocation. The first tier is served before the second. The final current-set projection enforces hard feasibility and aggregate priority at each decision epoch. A gain below one adds an exact quadratic movement regularizer. Only the partially served tier has smoothing freedom.
+Current nonnegative requests and capacity define an instantaneous divisible-resource allocation. The first tier is served before the second. The final current-set projection enforces hard feasibility and aggregate priority at each decision epoch. A gain below one adds an exact quadratic movement regularizer. For the single-resource model, only the partially served tier has smoothing freedom. A tree of local capacities can leave several partially served tiers and requires retaining the local constraints.
 
 The exact baseline uses the same sorted-breakpoint projection, so comparisons do not rely on a slow generic solver. Delays in replay are explicitly imposed ages of nominal commands; the correction still sees current requests and capacity. Generic SLSQP timings are supplementary. The two-class bike trace is a singleton-face negative control. Neither dataset is a deployment trial, and the normalized electricity allocations are not physical kW allocations.
 
@@ -54,22 +54,37 @@ Post-review exploratory analyses are generated separately by `scripts/review_ana
 
 The local manuscript builds with `latexmk -pdf main.tex`. It requires `biber` and `biblatex-apa`, and depends on the local-only bibliography and generated figure/table outputs. Manuscript files are intentionally absent from the code distribution.
 
+## Extension experiments, version 0.3.0
+
+The extension protocol and its input checksum are in `results/extensions/protocol.json`. It was specified before these outcomes were generated. The experiments reuse all 30 electricity blocks for weighted feedback and for closed-loop ramp decisions, with 180 trajectories for each experiment. Ten synthetic hierarchy seeds compare two gains over 128 observations. Ten electricity windows compare two online rules to the clairvoyant quadratic optimum over 96 observations. A fixed-data shock separates return to hard feasibility from restoration of unrestricted priority totals.
+
+After preparing the original datasets, run:
+
+```sh
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 .venv/bin/python scripts/run_extensions.py --part all
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 .venv/bin/python scripts/verify_extensions.py
+mkdir -p figures
+.venv/bin/python scripts/render_extensions.py
+```
+
+The recorded full extension run took 548.5 seconds on the original workstation, excluding independent verification. OSQP 1.1.3 handles the hierarchy projections. Raw arrays, epoch-level records and block summaries remain in `results/extensions`. Source and output hashes are bound in its `environment_all.json`. The verifier checks saved outcomes without regenerating the experiment. Run it before replacing any archived outputs if checking this snapshot. Re-running experiments changes environment timing metadata and can change solver-level rounding. See `EXTENSIONS.md` for interpretation and numerical limits.
+
 ## Privacy and distribution
 
-Run `.venv/bin/python scripts/build_code_archive.py` to build and audit a **local code-only** ZIP from an explicit file allowlist. It includes no paper sources, bibliography, templates, Word documents, PDFs, data, results, or Git history. The archive does not upload itself. The author selected MIT for code and CC BY 4.0 for original results and documentation; see LICENSE and LICENSE-DATA.md. No manuscript-source license is granted.
+Run `.venv/bin/python scripts/build_extension_archive.py` to build and inspect the **v0.3.0 reproducibility ZIP**. An explicit allowlist selects code, attribution, manifests and numerical outputs. Every entry is hashed and checked, including the numeric arrays. This script does not upload or publish. For v0.3.0, use this builder rather than the older builders retained in v0.2.0.
 
-Never add manuscript sources to any public Git branch, tag, release, archive or attachment. `.gitignore` is a convenience, not a history-sanitization mechanism. Any future publication needs an explicit archive-content audit and authorization. Deleting a source in a later commit would not remove earlier public history.
-
-Run `.venv/bin/python scripts/build_repro_archive.py` to create the separate DOI-deposit package including explicitly listed manifests and numerical outputs. Its complete allowlist and checksum inventory are audited locally. This script does not upload or publish.
+The author selected MIT for code and CC BY 4.0 for original results and documentation. See LICENSE and LICENSE-DATA.md. No manuscript-source license is granted. Never add manuscript sources to any public Git branch, tag, release, archive or attachment. Deleting a source in a later commit would not remove earlier public history. The code ZIP excludes manuscript sources, bibliography, templates, editorial documents, paper and figure PDFs, editable schematics, original dataset archives and Git history.
 
 ## Releases and citation
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23457662.svg)](https://doi.org/10.5281/zenodo.23457662)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23457661.svg)](https://doi.org/10.5281/zenodo.23457661)
+
+- **v0.3.0**: [GitHub release](https://github.com/MadBezoui/priority-preserving-allocation/releases/tag/v0.3.0), with weighted, hierarchy, closed-loop ramp and horizon experiments.
 
 - **v0.2.0** — [GitHub release](https://github.com/MadBezoui/priority-preserving-allocation/releases/tag/v0.2.0) · [Zenodo archival record](https://doi.org/10.5281/zenodo.23457662)
 
 Bezoui, M. (2026). *Priority-preserving projected resource allocation: reproducibility package* (Version 0.2.0). Zenodo. https://doi.org/10.5281/zenodo.23457662
 
-The archived release contains the experimental software, manifests and numerical outputs. All 50 archived files were checked against the released Git tree and the package checksum manifest. Manuscript sources and the paper PDF are excluded. Code is MIT; original results and documentation are CC BY 4.0.
+The archived v0.2.0 release contains the experimental software, manifests and numerical outputs. All 50 archived files were checked against the released Git tree and the package checksum manifest. Manuscript sources and the paper PDF are excluded. Code is MIT; original results and documentation are CC BY 4.0.
 
-The current main branch includes citation metadata added after DOI assignment. The v0.2.0 tag and Zenodo archive retain the immutable release snapshot. `.zenodo.json` supplies metadata for future connected releases; update version metadata before a new release.
+The version-specific v0.2.0 DOI identifies the baseline results. Version v0.3.0 includes all extensions and is released through the linked GitHub and Zenodo integration. Its version-specific DOI will be linked from the release once Zenodo has completed archiving. The concept DOI identifies the complete version family.

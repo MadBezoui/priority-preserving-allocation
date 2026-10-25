@@ -1,0 +1,32 @@
+{
+  "part": "all",
+  "date": "2026-10-25",
+  "elapsed_seconds": 548.5303769111633,
+  "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "numpy": "2.5.4",
+  "scipy": "1.18.1",
+  "osqp": "1.1.3",
+  "platform": "macOS-27.2-arm64-arm-64bit",
+  "protocol_sha256": "c9fe89e0cf8d26cab2eac68c31c3d77920b5d9c57956e6195599969b683d7746",
+  "source_sha256": {
+    "src/abo/allocation.py": "84a94b0765a9259e347c017ffcdb61186bdf084df3781e9302f1ae273ec78750",
+    "src/abo/extensions.py": "da63c5758221a0b7386c4a9388fe493c511ac0ec7dbd90b7bfd60416a983f8ec",
+    "scripts/run_extensions.py": "d791cf4eaabea7b794eb2f0fd9d8535aeeeb67fcaf39fc96797fcde39c5cebf1",
+    "tests/test_extensions.py": "b628e70f5554b360a8349e02686814509fccf97addb54448c8a7d819d6c6edd2"
+  },
+  "output_sha256": {
+    "static_recovery.csv": "9972d9e4f6694bd04412878cd26e8fa95a1348d2ec6af13990a3ab482b967a20",
+    "offline_trajectories.npz": "a8fe293ec06d73dd9d8260e1b3fb14d6e41ab28e048c52fed55f05528b0203bc",
+    "weight_epochs.csv": "65ec91c1f1eefe79923839984ad57c7ca23174a178822f3dbd1b94265b950b0c",
+    "ramp_epochs.csv": "80af361ba394f2b4acc40e87f0f523964981da88b1396638c2f50071afb2b74c",
+    "ramp_trajectories.npz": "b5c02e315939823dabb5dce2cfdf22513451f4b4990a31e248f2292e9c9f3c6c",
+    "hierarchy_epochs.csv": "155bacf6df36b29d0ea42835ab0f4aab8eb1509a40bf5b371542dafb7e682b53",
+    "static_recovery_epochs.csv": "799150b254d7af50742de494d9c2746c05df0b59abc311de442f60997e78eba8",
+    "hierarchy.csv": "10b4e3da119b57457004bec39e8af1b4ba82e428f9ae3c45f807409bbfd0050b",
+    "ramps.csv": "d44fef0a9ac7aed960730bf4013032e8ef5d7163f0f89d1d6c11157bf26e7ff6",
+    "offline.csv": "aa719e7fc88d0e4e7493a5d8eeb59d2c56eb493f9cad6cf1dffe1d000bd0bd92",
+    "hierarchy_trajectories.npz": "1486c08a4c0b9e693a12c33f933edd312644535179343c41df779c62735757de",
+    "weights.csv": "2241d0d663092947d66f1ece4d06a21948ce6a101d2aeb14671c62bd34911791",
+    "weighted_trajectories.npz": "6e95349e7440a1e79e0c99581fac87c72384535055884bf2f52028961ad399eb"
+  }
+}

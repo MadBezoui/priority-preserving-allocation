@@ -1,15 +1,33 @@
 {
   "title": "Priority-preserving projected resource allocation: reproducibility package",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "upload_type": "software",
   "access_right": "open",
   "license": "mit",
   "language": "eng",
-  "creators": [{"name": "Bezoui, Madani", "affiliation": "CESI LINEACT (UR 7527), Campus de Nancy, France"}],
-  "description": "Reproducible experimental software, provenance manifests and numerical outputs for single-resource priority-preserving projected allocation. Includes historical trace replays, synthetic scenarios, bounded-error and ramp diagnostics, numerical checks, and post-review fairness and paired timing analyses. Software is licensed under MIT. Original results and documentation are separately licensed CC BY 4.0 (see LICENSE-DATA.md). Upstream UCI data attribution is retained in DATA_SOURCES.md. Manuscript sources, bibliography, templates, editorial files and manuscript PDF are excluded. This is a counterfactual allocation study, not a deployment validation.",
-  "keywords": ["resource allocation", "lexicographic optimization", "projected feedback", "reproducibility"],
+  "creators": [
+    {
+      "name": "Bezoui, Madani",
+      "affiliation": "CESI LINEACT (UR 7527), Campus de Nancy, France"
+    }
+  ],
+  "description": "Reproducible experimental software, provenance manifests and numerical outputs for priority-preserving projected resource allocation. Version 0.3.0 adds weighted metrics, hierarchical capacities, closed-loop ramp feasibility and recovery, and horizon-cost comparisons against a clairvoyant optimum, with raw trajectories and independent numerical verification. It retains the historical baseline replays and diagnostics. Software is licensed under MIT. Original results and documentation are separately licensed CC BY 4.0 (see LICENSE-DATA.md). Upstream UCI data attribution is retained in DATA_SOURCES.md. Manuscript sources, bibliography, templates, editorial files, editable manuscript illustrations and manuscript PDF are excluded. This is a constructed allocation study, not deployment validation.",
+  "keywords": [
+    "resource allocation",
+    "lexicographic optimization",
+    "projected feedback",
+    "reproducibility"
+  ],
   "related_identifiers": [
-    {"identifier": "https://doi.org/10.24432/C58C86", "relation": "isDerivedFrom", "resource_type": "dataset"},
-    {"identifier": "https://doi.org/10.24432/C5W894", "relation": "isDerivedFrom", "resource_type": "dataset"}
+    {
+      "identifier": "https://doi.org/10.24432/C58C86",
+      "relation": "isDerivedFrom",
+      "resource_type": "dataset"
+    },
+    {
+      "identifier": "https://doi.org/10.24432/C5W894",
+      "relation": "isDerivedFrom",
+      "resource_type": "dataset"
+    }
   ]
 }

@@ -1,0 +1,91 @@
+{
+  "date": "2026-10-25",
+  "seed": 20261025,
+  "dataset": "data/processed/electricity.npz",
+  "blocks": 30,
+  "length": 336,
+  "capacity_ratio": 0.9,
+  "drop_interval_zero_indexed": [
+    112,
+    224
+  ],
+  "capacity_drop_factor": 0.5,
+  "initialization": "Common unweighted exact target of first observation",
+  "ramps": [
+    0.1,
+    0.5,
+    2.0
+  ],
+  "gains": [
+    0.25,
+    1.0
+  ],
+  "weight_exponents": [
+    0,
+    1,
+    2
+  ],
+  "weight_floor": 0.05,
+  "hierarchy": {
+    "seeds": 10,
+    "n": 8,
+    "length": 128,
+    "cycles": 2,
+    "demand_amplitude": 0.65,
+    "root_capacity": 4.8,
+    "local_capacities": [
+      1.8,
+      3.2
+    ],
+    "drop_interval": [
+      42,
+      85
+    ],
+    "root_drop_factor": 0.75,
+    "groups": [
+      [
+        0,
+        1,
+        4,
+        5
+      ],
+      [
+        2,
+        3,
+        6,
+        7
+      ]
+    ]
+  },
+  "offline": {
+    "blocks": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "window": [
+      80,
+      176
+    ],
+    "mu": 3.0,
+    "relative_certificate_tolerance": 1e-09
+  },
+  "static_shock": {
+    "n": 32,
+    "requests": 1.0,
+    "capacity_before": 24.0,
+    "capacity_after": 12.0,
+    "length": 128
+  },
+  "feasibility_tolerance": 1e-08,
+  "historical_outputs_modified": false,
+  "scope": "Constructed allocation scenarios. Neither electrical power-flow nor deployment data.",
+  "input_sha256": "d2c1a7842820e3c97afb15c6fe18dbe6837c00259d9b86bfe36e95b1bec468d4"
+}
