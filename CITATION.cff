@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "Please cite the version-specific Zenodo record linked from the v0.3.0 GitHub release."
+message: "Please cite this archived experiment package if you use its code or results."
 title: "Priority-preserving projected resource allocation: reproducibility package"
 type: software
 version: 0.3.0
@@ -13,3 +13,4 @@ license:
   - CC-BY-4.0
 abstract: "Reproducible allocation experiments with weighted metrics, hierarchical capacities, closed-loop ramps and hindsight cost certificates, together with the archived baseline results. Manuscript sources are excluded."
 repository-code: "https://github.com/MadBezoui/priority-preserving-allocation"
+doi: 10.5281/zenodo.23650488

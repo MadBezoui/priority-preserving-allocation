@@ -77,14 +77,14 @@ The author selected MIT for code and CC BY 4.0 for original results and document
 
 ## Releases and citation
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23457661.svg)](https://doi.org/10.5281/zenodo.23457661)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23650488.svg)](https://doi.org/10.5281/zenodo.23650488)
 
-- **v0.3.0**: [GitHub release](https://github.com/MadBezoui/priority-preserving-allocation/releases/tag/v0.3.0), with weighted, hierarchy, closed-loop ramp and horizon experiments.
+- **v0.3.0**: [GitHub release](https://github.com/MadBezoui/priority-preserving-allocation/releases/tag/v0.3.0), [Zenodo record](https://doi.org/10.5281/zenodo.23650488), with weighted, hierarchy, closed-loop ramp and horizon experiments.
 
 - **v0.2.0** — [GitHub release](https://github.com/MadBezoui/priority-preserving-allocation/releases/tag/v0.2.0) · [Zenodo archival record](https://doi.org/10.5281/zenodo.23457662)
 
-Bezoui, M. (2026). *Priority-preserving projected resource allocation: reproducibility package* (Version 0.2.0). Zenodo. https://doi.org/10.5281/zenodo.23457662
+Bezoui, M. (2026). *Priority-preserving projected resource allocation: reproducibility package* (Version 0.3.0). Zenodo. https://doi.org/10.5281/zenodo.23650488
 
 The archived v0.2.0 release contains the experimental software, manifests and numerical outputs. All 50 archived files were checked against the released Git tree and the package checksum manifest. Manuscript sources and the paper PDF are excluded. Code is MIT; original results and documentation are CC BY 4.0.
 
-The version-specific v0.2.0 DOI identifies the baseline results. Version v0.3.0 includes all extensions and is released through the linked GitHub and Zenodo integration. Its version-specific DOI will be linked from the release once Zenodo has completed archiving. The concept DOI identifies the complete version family.
+The version-specific DOI 10.5281/zenodo.23650488 identifies the complete v0.3.0 snapshot. The concept DOI 10.5281/zenodo.23457661 identifies the version family. The v0.3.0 tag, release assets and Zenodo archive retain the release snapshot. Citation metadata added after DOI assignment is recorded separately on the main branch. Download the release asset for its original checksum-bound snapshot.
