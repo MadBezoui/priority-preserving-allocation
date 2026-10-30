@@ -95,7 +95,9 @@ Code is released under the MIT license (`LICENSE`). Original results and documen
 
 ## Citation
 
-See `CITATION.cff`. All versions: [10.5281/zenodo.23457661](https://doi.org/10.5281/zenodo.23457661).
+Bezoui, M. (2026). *Resource allocation under strict service priorities with temporal smoothing and ramp limits* (Version 0.4.0). Zenodo. [DOI 10.5281/zenodo.23811683](https://doi.org/10.5281/zenodo.23811683).
+
+All versions: [10.5281/zenodo.23457661](https://doi.org/10.5281/zenodo.23457661).
 
 ## Distribution boundary
 
