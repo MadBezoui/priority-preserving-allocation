@@ -1,5 +1,5 @@
 {
-  "classification": "post-review exploratory diagnostics",
+  "classification": "exploratory diagnostics",
   "seed": 20261019,
   "fairness": {
     "exact": {

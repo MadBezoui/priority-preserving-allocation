@@ -1,32 +1,31 @@
 {
-  "title": "Priority-preserving projected resource allocation: reproducibility package",
-  "version": "0.3.0",
+  "title": "Resource allocation under strict service priorities with temporal smoothing and ramp limits",
   "upload_type": "software",
-  "access_right": "open",
-  "license": "mit",
-  "language": "eng",
+  "version": "0.4.0",
+  "description": "Open research software and recorded experiments for allocating a divisible resource under fixed service priorities. The implementation selects allocations on priority optimal faces using quadratic temporal smoothing, supports weighted service metrics and hierarchical capacities, and handles ramp limits with explicit emergency actions. The package includes comparisons with exponential smoothing, regularized online balanced descent, an absolute movement penalty and predictive control with persistence or oracle forecasts. Full horizon clairvoyant solutions, numerical bound checks, dataset manifests, saved trajectories, tests and figure generation scripts are included. The electricity and bike rental datasets are retrieved from the UCI Machine Learning Repository by a checksum verified downloader. Capacities, priority classes and disruptions are constructed experimental parameters. Code is licensed under MIT. Original results and documentation are licensed under CC BY 4.0. Editable manuscript sources and editorial documents are excluded.",
   "creators": [
     {
       "name": "Bezoui, Madani",
       "affiliation": "CESI LINEACT (UR 7527), Campus de Nancy, France"
     }
   ],
-  "description": "Reproducible experimental software, provenance manifests and numerical outputs for priority-preserving projected resource allocation. Version 0.3.0 adds weighted metrics, hierarchical capacities, closed-loop ramp feasibility and recovery, and horizon-cost comparisons against a clairvoyant optimum, with raw trajectories and independent numerical verification. It retains the historical baseline replays and diagnostics. Software is licensed under MIT. Original results and documentation are separately licensed CC BY 4.0 (see LICENSE-DATA.md). Upstream UCI data attribution is retained in DATA_SOURCES.md. Manuscript sources, bibliography, templates, editorial files, editable manuscript illustrations and manuscript PDF are excluded. This is a constructed allocation study, not deployment validation.",
+  "license": "MIT",
   "keywords": [
     "resource allocation",
     "lexicographic optimization",
-    "projected feedback",
-    "reproducibility"
+    "smoothed online optimization",
+    "load curtailment",
+    "feedback optimization"
   ],
   "related_identifiers": [
     {
-      "identifier": "https://doi.org/10.24432/C58C86",
-      "relation": "isDerivedFrom",
+      "identifier": "10.24432/C58C86",
+      "relation": "references",
       "resource_type": "dataset"
     },
     {
-      "identifier": "https://doi.org/10.24432/C5W894",
-      "relation": "isDerivedFrom",
+      "identifier": "10.24432/C5W894",
+      "relation": "references",
       "resource_type": "dataset"
     }
   ]

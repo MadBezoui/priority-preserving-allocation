@@ -1,8 +1,8 @@
-"""Post-review exploratory diagnostics. Does not alter the original experiment grid.
+"""Exploratory diagnostics complementing the main experiment grid.
 
 Outputs: marginal-tier ratio fairness; two relative-effect conventions; robustness
 by true tier; paired original timings and a new batched affine-combine microbenchmark;
-random checks of the observed-increment certificate. No author manuscript included.
+random checks of the observed-increment certificate.
 """
 from pathlib import Path
 import sys,time,json,hashlib,platform
@@ -45,9 +45,9 @@ def fairness():
                 ratios=x[t,idx]/d[t,idx]
                 jain=ratios.sum()**2/(len(idx)*np.sum(ratios**2))
                 rows.append(dict(block=block,t=t,tier=k+1,method=method,n=len(idx),jain=jain,ratio_sd=np.std(ratios)))
-    raw=pd.DataFrame(rows);raw.to_csv(R/'review_fairness.csv',index=False)
+    raw=pd.DataFrame(rows);raw.to_csv(R/'diagnostics_fairness.csv',index=False)
     blocks=raw.groupby(['block','method'])[['jain','ratio_sd']].mean().reset_index()
-    blocks.to_csv(R/'review_fairness_blocks.csv',index=False)
+    blocks.to_csv(R/'diagnostics_fairness_blocks.csv',index=False)
     return blocks.groupby('method')[['jain','ratio_sd']].mean().to_dict('index')
 
 def conventions():
@@ -64,7 +64,7 @@ def conventions():
                     vals=100*(a[ix].mean(axis=1)/b[ix].mean(axis=1)-1)
                     est=100*(a.mean()/b.mean()-1);lo,hi=np.quantile(vals,[.025,.975])
                 rows.append(dict(dataset=dataset,metric=metric,convention=convention,percent_change=est,ci_low=lo,ci_high=hi))
-    pd.DataFrame(rows).to_csv(R/'review_relative_effects.csv',index=False)
+    pd.DataFrame(rows).to_csv(R/'diagnostics_relative_effects.csv',index=False)
     return rows
 
 def robustness():
@@ -87,12 +87,12 @@ def robustness():
                     ordinary_shortage=shortage[g[1]].sum()/d.sum(),
                     high_demand=d[j,g[0]].sum()/d.sum(),ordinary_demand=d[j,g[1]].sum()/d.sum()))
             summ.append(dict(seed=seed,method=method,total_shortage=total/d.sum()))
-    raw=pd.DataFrame(rows);raw.to_csv(R/'review_robustness_tiers.csv',index=False)
+    raw=pd.DataFrame(rows);raw.to_csv(R/'diagnostics_robustness_tiers.csv',index=False)
     old=pd.read_csv(R/'robustness.csv').sort_values(['seed','method'])
     fresh=pd.DataFrame(summ).sort_values(['seed','method'])
     np.testing.assert_allclose(old.total_shortage,fresh.total_shortage,atol=2e-15,rtol=0)
     byseed=raw.groupby(['seed','method'])[['high_shortage','ordinary_shortage','high_demand','ordinary_demand']].sum().reset_index()
-    byseed.to_csv(R/'review_robustness_seeds.csv',index=False)
+    byseed.to_csv(R/'diagnostics_robustness_seeds.csv',index=False)
     out={}
     for method in ['observed','conservative']:
         z=raw[raw.method==method];s=byseed[byseed.method==method]
@@ -121,7 +121,7 @@ def timings():
             for _ in range(100):funcs[name]()
             elapsed=(time.perf_counter_ns()-start)/100/1000
             rows.append(dict(repeat=repeat,method=name,microseconds=elapsed,batch=100))
-    a=pd.DataFrame(rows);a.to_csv(R/'review_timing_batches.csv',index=False)
+    a=pd.DataFrame(rows);a.to_csv(R/'diagnostics_timing_batches.csv',index=False)
     out['batched_affine_median_us']=float(a[a.method=='affine'].microseconds.median())
     p=a.pivot(index='repeat',columns='method',values='microseconds')
     out['batched_paired_difference_us']=ci((p.feedback-p.exact).to_numpy(),np.median)
@@ -137,34 +137,34 @@ def certificates():
         rows.append(dict(t=t,delta=delta,data_bound=obs,error=err,accumulated_bound=B,
                          marginal_switch=marginal(d,c,g)!=marginal(prevd,prevc,g)))
         prevd,prevc,prevstar=d,c,star
-    df=pd.DataFrame(rows);df.to_csv(R/'review_data_certificate.csv',index=False)
+    df=pd.DataFrame(rows);df.to_csv(R/'diagnostics_data_certificate.csv',index=False)
     assert np.all(df.delta<=df.data_bound+1e-9) and np.all(df.error<=df.accumulated_bound+1e-9)
     return {'checks':len(df),'switches':int(df.marginal_switch.sum()),'max_increment_excess':float((df.delta-df.data_bound).max())}
 
 def render(summary):
     timing=summary['timing'];m,lo,hi=timing['batched_paired_difference_us']
-    macros={'ReviewAffine':timing['batched_affine_median_us'],
-            'ReviewBatchDifference':m,'ReviewBatchLow':lo,'ReviewBatchHigh':hi}
-    (R/'review_numbers.tex').write_text('\n'.join('\\newcommand{\\'+k+'}{'+f'{v:.2f}'+'}' for k,v in macros.items())+'\n')
-    f=pd.read_csv(R/'review_relative_effects.csv');lines=[]
+    macros={'DiagAffine':timing['batched_affine_median_us'],
+            'DiagBatchDifference':m,'DiagBatchLow':lo,'DiagBatchHigh':hi}
+    (R/'diagnostics_numbers.tex').write_text('\n'.join('\\newcommand{\\'+k+'}{'+f'{v:.2f}'+'}' for k,v in macros.items())+'\n')
+    f=pd.read_csv(R/'diagnostics_relative_effects.csv');lines=[]
     for _,r in f[f.dataset=='electricity'].iterrows():
         metric='Movement' if r.metric=='variation' else 'Shortfall'
         conv='Mean of block ratios' if r.convention=='mean_of_ratios' else 'Ratio of block means'
         lines.append(f'{metric} & {conv} & {r.percent_change:.2f} & [{r.ci_low:.2f}, {r.ci_high:.2f}] '+r'\\')
-    (R/'table_review_ratios.tex').write_text(r'\begin{tabular}{llrr}\toprule'+'\n'+r'Metric & Convention & Change (\%) & Interval (\%)\\\midrule'+'\n'+'\n'.join(lines)+'\n'+r'\bottomrule\end{tabular}'+'\n')
+    (R/'table_diagnostics_ratios.tex').write_text(r'\begin{tabular}{llrr}\toprule'+'\n'+r'Metric & Convention & Change (\%) & Interval (\%)\\\midrule'+'\n'+'\n'.join(lines)+'\n'+r'\bottomrule\end{tabular}'+'\n')
 
 def run():
-    summary={'classification':'post-review exploratory diagnostics', 'seed':SEED,
+    summary={'classification':'exploratory diagnostics', 'seed':SEED,
              'fairness':fairness(),'relative_effects':conventions(),'robustness':robustness(),
              'data_certificate':certificates(),'timing':timings()}
-    (R/'review_summary.json').write_text(json.dumps(summary,indent=2))
+    (R/'diagnostics_summary.json').write_text(json.dumps(summary,indent=2))
     render(summary)
     h=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
     sources=[Path(__file__),ROOT/'src/abo/allocation.py',ROOT/'scripts/run_experiments.py',ROOT/'scripts/robustness.py']
     inputs=[R/'runtime.csv',R/'replay.csv',R/'robustness.csv',ROOT/'data/processed/electricity.npz']
     prov={'python':sys.version,'platform':platform.platform(),'source_sha256':{str(p.relative_to(ROOT)):h(p) for p in sources},
           'input_sha256':{str(p.relative_to(ROOT)):h(p) for p in inputs},
-          'output_sha256':{str(p.relative_to(ROOT)):h(p) for p in R.glob('review_*.csv')}}
-    (R/'review_provenance.json').write_text(json.dumps(prov,indent=2))
+          'output_sha256':{str(p.relative_to(ROOT)):h(p) for p in R.glob('diagnostics_*.csv')}}
+    (R/'diagnostics_provenance.json').write_text(json.dumps(prov,indent=2))
     print(json.dumps(summary,indent=2))
 if __name__=='__main__':run()

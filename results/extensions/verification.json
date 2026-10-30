@@ -8,7 +8,7 @@
     "trajectories": 180,
     "epochs": 60480,
     "independent_brent_replay_trajectories": 12,
-    "max_coordinate_difference": 1.0293987884324451e-12,
+    "max_coordinate_difference": 1.0311751452718454e-12,
     "means": [
       {
         "beta": 0,
@@ -124,16 +124,16 @@
   },
   "hierarchy": {
     "rank_checks": 2560,
-    "rank_difference_max": 1.3322676295501878e-15,
+    "rank_difference_max": 1.7763568394002505e-15,
     "variational_inequality_lp_checks": 120,
-    "minimum_projection_VI": -3.277361743967734e-13,
+    "minimum_projection_VI": -3.2771341706360737e-13,
     "means": [
       {
         "alpha": 0.25,
         "movement": 0.02682074833484579,
         "unweighted_shortfall": 0.23104874967120623,
         "multiple_partial_fraction": 0.5046875,
-        "qp_residual_max": 8.362810819825555e-11,
+        "qp_residual_max": 8.362810819825554e-11,
         "contraction_excess_max": 1.252243520733975e-11
       },
       {
@@ -152,21 +152,21 @@
     "independent_sparse_qp": [
       {
         "block": 0,
-        "objective": 1829.6679220444016,
+        "objective": 1829.6679220443993,
         "saved_lower": 1829.6679217026456,
-        "saved_upper": 1829.6679230804775,
+        "saved_upper": 1829.6679230804773,
         "coordinate_difference_max": 0.0003628093071270655,
-        "primal_residual": 8.066171251491622e-10,
-        "dual_residual": 1.868792631537625e-09
+        "primal_residual": 8.066505117113703e-10,
+        "dual_residual": 1.869568237339005e-09
       },
       {
         "block": 9,
-        "objective": 756.6559764048005,
+        "objective": 756.6559762541416,
         "saved_lower": 756.6559764216132,
         "saved_upper": 756.6559770255633,
         "coordinate_difference_max": 9.909272089458909e-05,
-        "primal_residual": 5.551361655100565e-10,
-        "dual_residual": 5.506376743771409e-10
+        "primal_residual": 1.0402026386152159e-09,
+        "dual_residual": 1.0148185326893142e-09
       }
     ],
     "means": [

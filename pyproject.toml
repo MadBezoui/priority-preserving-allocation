@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "abo-allocation-study"
-version = "0.3.0"
+version = "0.4.0"
 description = "Reproducible study of priority-preserving projected resource allocation"
 requires-python = ">=3.10"
 dependencies = ["numpy>=1.26", "scipy>=1.11", "pandas>=2.0", "matplotlib>=3.8", "requests>=2.31", "osqp>=1.1"]

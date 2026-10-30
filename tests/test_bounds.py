@@ -1,4 +1,4 @@
-"""Independent checks for the mathematical additions requested in review."""
+"""Independent checks of the observed-data tracking bound and related comparative statics."""
 import numpy as np
 from scipy.optimize import linprog, minimize
 from abo.allocation import priority_project, tier_budgets, feedback
@@ -15,7 +15,7 @@ def test_observed_increment_bound_and_coordinate_comparative_statics():
         assert -1e-9<=delta[j]<=inc+1e-9
         assert np.all(np.delete(delta,j)<=1e-9)
         assert np.linalg.norm(delta)<=np.sqrt(2)*inc+1e-9
-    # The suggested unit l2 constant fails without a marginal-tier switch.
+    # A unit l2 constant fails even without a marginal-tier switch.
     g=[np.array([0,1]),np.array([2])];d=np.array([1.,1.,10.]);e=np.array([2.,2.,10.])
     x=priority_project(d,d,5.,g);y=priority_project(e,e,5.,g)
     np.testing.assert_allclose(x,[1,1,3]);np.testing.assert_allclose(y,[2,2,1])

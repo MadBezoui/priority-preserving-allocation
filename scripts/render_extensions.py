@@ -20,11 +20,11 @@ def panel(ax,title):
     ax.set_title(title,loc='left',pad=13);ax.grid(axis='y',color=GRAY,alpha=.17,lw=.6);ax.set_axisbelow(True)
 
 def save(fig,name):
-    fig.savefig(F/(name+'.pdf'),bbox_inches='tight',metadata={'Creator':'Matplotlib','CreationDate':None,'ModDate':None})
+    fig.savefig(F/(name+'.pdf'),bbox_inches='tight',metadata={'Creator':None,'Producer':None,'CreationDate':None,'ModDate':None})
     fig.savefig(F/(name+'.png'),bbox_inches='tight',dpi=220);plt.close(fig)
 
 def weighted_horizon():
-    w=pd.read_csv(R/'weights.csv');h=pd.read_csv(R/'offline.csv')
+    w=pd.read_csv(R/'weights.csv')
     fig,axes=plt.subplots(1,2,figsize=(7.2,3.8));fig.subplots_adjust(left=.10,right=.98,top=.85,bottom=.27,wspace=.37)
     ax=axes[0];panel(ax,'A   Service metric')
     names=['Absolute','Reciprocal','Reciprocal square'];colors=[BLACK,BLUE,MAGENTA];markers=['s','o','D']
@@ -36,15 +36,13 @@ def weighted_horizon():
     handles=[Line2D([],[],color=c,marker=m,ls='None',label=n,markersize=6) for c,m,n in zip(colors,markers,names)]
     ax.legend(handles=handles,loc='lower right',frameon=False,fontsize=8)
     ax=axes[1];panel(ax,'B   Horizon cost gap')
-    for alpha,color,label,offset in [(.25,BLUE,'Feedback',-.12),(1.,BLACK,'Myopic',.12)]:
-        data=h[h.alpha==alpha].sort_values('block');x=data.block.to_numpy()+offset
-        actual=data.gap_upper/data.offline_lower*100
-        bound=data.certificate_tight/data.offline_lower*100
-        ax.vlines(x,actual,bound,color=GRAY,alpha=.5,lw=1)
-        ax.scatter(x,actual,color=color,s=21,marker='o')
-        ax.scatter(x,bound,color=color,s=28,marker='_',linewidths=1.7)
-    ax.set_xlabel('Electricity block');ax.set_ylabel('Gap / offline cost (%)');ax.set_xticks([0,3,6,9]);ax.set_ylim(bottom=0)
-    ax.legend(handles=[Line2D([],[],color=BLUE,marker='o',ls='None',label='Feedback'),Line2D([],[],color=BLACK,marker='o',ls='None',label='Myopic'),Line2D([],[],color=GRAY,marker='_',ls='None',label='Certificate')],loc='upper left',frameon=False,fontsize=8)
+    c=pd.read_csv(ROOT/'results/comparisons/clairvoyant.csv');c=c[c.mu==3.].sort_values('block')
+    x=c.block.to_numpy();actual=c.gap/c.phi_star_upper*100;bound=c.sharp_bound/c.phi_star_upper*100
+    ax.vlines(x,actual,bound,color=GRAY,alpha=.5,lw=1)
+    ax.scatter(x,actual,color=BLUE,s=21,marker='o')
+    ax.scatter(x,bound,color=BLACK,s=28,marker='_',linewidths=1.7)
+    ax.set_xlabel('Electricity block');ax.set_ylabel('Gap / clairvoyant cost (%)');ax.set_xticks([0,10,20,29]);ax.set_ylim(0,1.32*bound.max())
+    ax.legend(handles=[Line2D([],[],color=BLUE,marker='o',ls='None',label='Feedback gap'),Line2D([],[],color=BLACK,marker='_',ls='None',label='Certificate')],loc='upper left',ncol=2,frameon=False,fontsize=8)
     save(fig,'weighted_horizon')
 
 def closed_loop():
@@ -72,9 +70,11 @@ def closed_loop():
     save(fig,'closed_loop')
 
 if __name__=='__main__':
+    F.mkdir(exist_ok=True)
     weighted_horizon();closed_loop()
-    paths=['weights.csv','offline.csv','ramps.csv','static_recovery_epochs.csv']
-    report={'date':'2026-10-25','script_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
-      'input_sha256':{p:hashlib.sha256((R/p).read_bytes()).hexdigest() for p in paths},
+    paths=['weights.csv','ramps.csv','static_recovery_epochs.csv']
+    report={'script_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+      'input_sha256':{**{p:hashlib.sha256((R/p).read_bytes()).hexdigest() for p in paths},
+        'comparisons/clairvoyant.csv':hashlib.sha256((ROOT/'results/comparisons/clairvoyant.csv').read_bytes()).hexdigest()},
       'figures':{n:hashlib.sha256((F/n).read_bytes()).hexdigest() for n in ['weighted_horizon.pdf','closed_loop.pdf']}}
     (R/'figure_provenance.json').write_text(json.dumps(report,indent=2)+'\n')

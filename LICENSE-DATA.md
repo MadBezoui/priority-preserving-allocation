@@ -4,6 +4,6 @@ Copyright 2026 Madani Bezoui. Original experimental outputs, provenance manifest
 
 [Full legal terms](https://creativecommons.org/licenses/by/4.0/legalcode.en).
 
-Attribute the package to Madani Bezoui and identify modifications. This notice does not license manuscript sources, bibliography, templates or editorial documents, which are excluded from the distribution. Software is licensed separately under MIT (LICENSE).
+Attribute the package to Madani Bezoui and identify modifications. Software is licensed separately under MIT (LICENSE).
 
 The upstream UCI datasets retain their original CC BY 4.0 licenses and attribution to Artur Trindade and Hadi Fanaee-T. See DATA_SOURCES.md. Their original archives are downloaded by the supplied script, not bundled in this package.

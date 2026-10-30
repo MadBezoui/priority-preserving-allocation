@@ -1,90 +1,102 @@
-# Priority-preserving resource allocation study
+# Resource allocation under strict service priorities with temporal smoothing and ramp limits
 
-A reproducible computational study of sampled projected feedback, exact compiled allocation, delay correction and strict aggregate service priorities. This is a research implementation, not a certified physical controller.
+Code, data manifests and numerical results for a computational study of divisible-resource allocation under strict service priorities. A projected feedback rule smooths allocations within the set of priority-optimal allocations. The study measures its tradeoff between movement and shortfall, compares it with external smoothing rules and a clairvoyant optimum, and checks its tracking, horizon and feasibility guarantees numerically.
 
-The full local workspace contains a manuscript and editorial materials. Those materials are private and excluded from the experiment-code archive. The baseline code, manifests and results have a separate archived release. Version v0.3.0 adds the extension experiments. See Releases and citation below.
+This is a research implementation, not a certified physical controller.
 
-## Reproduce the computational study
+## Installation
 
-Use Python 3.12. On the original workstation, the system Python 3.10 SciPy extension could not load; a clean Python 3.12 environment resolved it. `requirements-lock.txt` records the actual working package versions. With `uv`:
+Python 3.12 or later. With [`uv`](https://docs.astral.sh/uv/):
 
 ```sh
 uv venv --python 3.12 .venv
 uv pip install --python .venv/bin/python -r requirements-lock.txt
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 .venv/bin/python -m pytest -q
-.venv/bin/python scripts/download_data.py
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 .venv/bin/python scripts/run_experiments.py
+```
+
+`requirements-lock.txt` pins the package versions of the main experiments. Each `environment_*.json` file records the Python and package versions, platform and elapsed time of the run that produced its results.
+
+## Reproduction
+
+Run every command from the repository root. Single-threaded linear algebra keeps timings comparable:
+
+```sh
+export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1
+.venv/bin/python -m pytest -q
+.venv/bin/python scripts/download_data.py          # about 250 MB from the UCI repository
+.venv/bin/python scripts/run_experiments.py        # main experiment grid
 .venv/bin/python scripts/robustness.py
 .venv/bin/python scripts/analyze.py
 .venv/bin/python scripts/verify_outputs.py
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 .venv/bin/python scripts/review_analysis.py
+.venv/bin/python scripts/diagnostics.py            # fairness, effect conventions, data certificate
+.venv/bin/python scripts/run_extensions.py --part all
+.venv/bin/python scripts/verify_extensions.py
+.venv/bin/python scripts/run_comparisons.py --part all
+.venv/bin/python scripts/check_horizon_qp.py
+.venv/bin/python scripts/analyze_comparisons.py
+.venv/bin/python scripts/render_extensions.py
+.venv/bin/python scripts/render_figures.py         # paper figures and table fragments
 ```
 
-The downloader needs network access and retrieves about 250 MB of original UCI archives. It streams the larger archive in chunks without extracting a full uncompressed copy. Allow at least 1 GB of free space for dependencies, archives and outputs. A recent CPU suffices; no GPU or paid service is needed. Downloads dominate elapsed time on a slow connection. Run timing experiments separately from other computational jobs for clean comparisons:
+The downloader caches the original archives in `data/raw/`, refuses any archive whose SHA-256 checksum differs from the recorded one and writes `data/processed/`. Allow 1 GB of disk space. No GPU is needed. `run_comparisons.py` takes about 45 minutes on four cores. Timing experiments should run alone:
 
 ```sh
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 .venv/bin/python scripts/run_experiments.py --part runtime
+.venv/bin/python scripts/run_experiments.py --part runtime
 ```
 
-The full runner's `all` mode records `environment_all.json`; individual modes record `environment_replay.json`, etc. For verification after `all`, the verifier accepts the corresponding full-run metadata.
+Re-running timing changes the measured values. In `results/runtime.csv`, `generic_qp` denotes SLSQP started from the previous allocation. Re-running other experiments can change solver-level rounding and environment metadata. The verification scripts check the saved outputs without regenerating them.
 
-## Model and comparisons
+## Model
 
-Current nonnegative requests and capacity define an instantaneous divisible-resource allocation. The first tier is served before the second. The final current-set projection enforces hard feasibility and aggregate priority at each decision epoch. A gain below one adds an exact quadratic movement regularizer. For the single-resource model, only the partially served tier has smoothing freedom. A tree of local capacities can leave several partially served tiers and requires retaining the local constraints.
+Nonnegative requests and a capacity define an allocation at each observation. Recipients belong to ordered tiers. Earlier-tier service takes precedence whenever the constraints allow it. The priority face is the set of allocations that attain these lexicographically optimal tier totals. With one capacity, only the partially served tier has allocation freedom. A tree of local capacities can leave several tiers partially served and requires keeping the local constraints.
 
-The exact baseline uses the same sorted-breakpoint projection, so comparisons do not rely on a slow generic solver. Delays in replay are explicitly imposed ages of nominal commands; the correction still sees current requests and capacity. Generic SLSQP timings are supplementary. The two-class bike trace is a singleton-face negative control. Neither dataset is a deployment trial, and the normalized electricity allocations are not physical kW allocations.
+The feedback rule projects $(1-\alpha)x_{t-1}+\alpha d_t$ onto the current priority face. A gain below one is an exact quadratic movement penalty with price $\mu=(1-\alpha)/\alpha$. The exact rule ($\alpha=1$) uses the same breakpoint projection, so comparisons do not depend on a slow generic solver.
 
-The experiment grid includes 54 disjoint historical blocks, 3 capacity levels, 4 command ages and 10 configurations (6,480 records), plus 2,240 synthetic records, gain sensitivity, bounded-error experiments, ramp-feasibility probes, static recovery, random certificates and runtime scaling. Repeated rows for delay-independent methods are not independent experimental replicates. Bootstrap intervals resample paired historical blocks and are descriptive, conditional on the selected traces.
+## Experiments
+
+**Main grid** (`run_experiments.py`). 54 disjoint historical blocks of 336 observations (30 electricity, 24 bike-rental), 3 capacity levels, 4 command ages and 10 rules, giving 6,480 scenario summaries, plus 2,240 synthetic records, gain sensitivity, bounded observation errors, ramp-feasibility probes, static recovery, random certificate checks and runtime scaling. The two-class bike trace has singleton tiers and serves as a sanity check. Repeated rows for rules unaffected by command age are not independent replicates.
+
+**Diagnostics** (`diagnostics.py`). Service-ratio fairness in the marginal tier, two conventions for relative effects, robustness by tier, paired timing batches and random checks of the observed-data tracking certificate.
+
+**Weighted, hierarchical and ramp experiments** (`run_extensions.py`). Parameters, input hash and tolerances are in `results/extensions/protocol.json`.
+
+- Weighted feedback: gains 0.25 and 1, weight exponents 0, 1 and 2 with floor 0.05, 180 trajectories of 336 observations. Shortfall is always reported unweighted.
+- Closed-loop ramps: limits 0.1, 0.5 and 2, two gains, all 30 electricity blocks. Each decision uses the previously implemented allocation. An emergency action respects ramps and attains the smallest unavoidable capacity and individual-bound violations. Such actions are recorded as infeasible.
+- Hierarchical capacities: ten seeds, two gains, eight recipients, two branches, 128 observations. Rank budgets are checked by linear programming, and OSQP 1.1.3 solves the face projections with tolerances 1e-10, polishing and residual checks. SLSQP is not used here because it reports incompatible constraints on faces that linear programming proves feasible.
+- Short-window horizon check: observations 80 to 175 of the first ten blocks at price 3.
+- Static recovery: six fixed-data trajectories after capacity falls from 24 to 12 with 32 unit requests.
+
+**Comparison rules** (`run_comparisons.py`, module `abo.comparison`). All 30 electricity blocks at capacity ratio 0.9. Every rule projects onto the current priority face:
+
+- feedback, gains 0.05 to 1.
+- exponential smoothing of requests followed by projection.
+- regularized online balanced descent, lambda1 in {1, 3, 9} and lambda2 in {0.25, 1, 4}.
+- an absolute movement penalty kappa ||x - x_prev||_1, kappa from 0.02 to 0.8.
+- receding-horizon control over 4 or 12 observations, with oracle or persistence forecasts.
+
+The clairvoyant horizon optimum is computed on each full block at prices 1, 3 and 9 by accelerated projected gradient with an objective interval of relative width at most 1e-11, and checked against OSQP on three blocks (`check_horizon_qp.py`). Avoidable cost subtracts the unavoidable shortfall of the exact rule. Parameters are selected on 15 blocks and evaluated on the other 15, in both directions. The same script draws ten random protected sets of sizes 4, 8 and 16 (seed 20261100 + 10 s + k for size s and draw k), repeats the comparison in kW, counts transitions that satisfy the recursive-feasibility condition, and checks the avoidable-cost bound in every block.
+
+Bootstrap intervals resample paired blocks (5,000 resamples) and are descriptive, conditional on the selected traces.
 
 ## Outputs
 
-- `data/source_manifest.json`: source URLs, licenses, retrieval times and archive checksums.
-- `data/processing_manifest.json`: training scales, selected columns and missing-time conventions.
-- `results/replay.csv`, `results/synthetic.csv`: full scenario summaries.
-- `results/blocks.csv`: exact historical selections.
-- `results/paired_intervals.csv`: paired block differences and percentile intervals.
-- `results/robustness.csv`, `results/ramp_diagnostics.csv`: limits of the certified model.
-- `results/runtime.csv`, `results/qp_checks.csv`: measured timing and independent QP checks.
-- `results/certificates.csv`, `results/recovery.csv`: numerical certificate checks.
-- `results/environment_*.json`: runtime versions, seed, elapsed time and source digests.
-- `results/verification.json`: final automated output verification.
-- `figures/`: deterministic PDF/PNG result plots. The analysis also emits local table fragments.
+- `data/source_manifest.json`, `data/processing_manifest.json`: source URLs, licenses, checksums, training scales, selected columns and missing-time conventions.
+- `results/*.csv`, `results/*.npz`: main grid, robustness, runtime, QP checks, certificates and recovery.
+- `results/diagnostics_*`: diagnostic tables, summary and provenance.
+- `results/extensions/`: weighted, hierarchical, ramp, horizon and recovery outputs with raw trajectories and `verification.json`.
+- `results/comparisons/`: comparison rules, clairvoyant optima, robustness, reachability, bound checks, `summary.json` and `table_external.tex`.
+- `results/paper_primary.tex`, `results/paper_numbers.tex`: main-grid table and timing values quoted in the paper.
+- `results/environment_*.json`, `results/comparisons/environment_*.json`, `results/extensions/environment_*.json`: software versions, platforms and elapsed times.
+- `MANIFEST.json`: SHA-256 checksums of every tracked file.
+- `figures/`: generated figures (not tracked). `render_figures.py` runs last and overwrites the same-named figures written by `analyze.py` with the versions shown in the paper.
 
-Post-review exploratory analyses are generated separately by `scripts/review_analysis.py`; they add marginal-tier service-ratio fairness, both relative-effect conventions, tier-specific robustness costs, paired timing diagnostics and the data-only tracking certificate. The `results/review_*.csv` files contain their observations and `review_provenance.json` records sources and inputs. Re-running timing changes measured values.
+## Licenses
 
-The local manuscript builds with `latexmk -pdf main.tex`. It requires `biber` and `biblatex-apa`, and depends on the local-only bibliography and generated figure/table outputs. Manuscript files are intentionally absent from the code distribution.
+Code is released under the MIT license (`LICENSE`). Original results and documentation are released under CC BY 4.0 (`LICENSE-DATA.md`). The UCI datasets keep their own CC BY 4.0 licenses. See `DATA_SOURCES.md`. They are downloaded by the supplied script, not redistributed.
 
-## Extension experiments, version 0.3.0
+## Citation
 
-The extension protocol and its input checksum are in `results/extensions/protocol.json`. It was specified before these outcomes were generated. The experiments reuse all 30 electricity blocks for weighted feedback and for closed-loop ramp decisions, with 180 trajectories for each experiment. Ten synthetic hierarchy seeds compare two gains over 128 observations. Ten electricity windows compare two online rules to the clairvoyant quadratic optimum over 96 observations. A fixed-data shock separates return to hard feasibility from restoration of unrestricted priority totals.
+See `CITATION.cff`. All versions: [10.5281/zenodo.23457661](https://doi.org/10.5281/zenodo.23457661).
 
-After preparing the original datasets, run:
+## Distribution boundary
 
-```sh
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 .venv/bin/python scripts/run_extensions.py --part all
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 .venv/bin/python scripts/verify_extensions.py
-mkdir -p figures
-.venv/bin/python scripts/render_extensions.py
-```
-
-The recorded full extension run took 548.5 seconds on the original workstation, excluding independent verification. OSQP 1.1.3 handles the hierarchy projections. Raw arrays, epoch-level records and block summaries remain in `results/extensions`. Source and output hashes are bound in its `environment_all.json`. The verifier checks saved outcomes without regenerating the experiment. Run it before replacing any archived outputs if checking this snapshot. Re-running experiments changes environment timing metadata and can change solver-level rounding. See `EXTENSIONS.md` for interpretation and numerical limits.
-
-## Privacy and distribution
-
-Run `.venv/bin/python scripts/build_extension_archive.py` to build and inspect the **v0.3.0 reproducibility ZIP**. An explicit allowlist selects code, attribution, manifests and numerical outputs. Every entry is hashed and checked, including the numeric arrays. This script does not upload or publish. For v0.3.0, use this builder rather than the older builders retained in v0.2.0.
-
-The author selected MIT for code and CC BY 4.0 for original results and documentation. See LICENSE and LICENSE-DATA.md. No manuscript-source license is granted. Never add manuscript sources to any public Git branch, tag, release, archive or attachment. Deleting a source in a later commit would not remove earlier public history. The code ZIP excludes manuscript sources, bibliography, templates, editorial documents, paper and figure PDFs, editable schematics, original dataset archives and Git history.
-
-## Releases and citation
-
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23650488.svg)](https://doi.org/10.5281/zenodo.23650488)
-
-- **v0.3.0**: [GitHub release](https://github.com/MadBezoui/priority-preserving-allocation/releases/tag/v0.3.0), [Zenodo record](https://doi.org/10.5281/zenodo.23650488), with weighted, hierarchy, closed-loop ramp and horizon experiments.
-
-- **v0.2.0** — [GitHub release](https://github.com/MadBezoui/priority-preserving-allocation/releases/tag/v0.2.0) · [Zenodo archival record](https://doi.org/10.5281/zenodo.23457662)
-
-Bezoui, M. (2026). *Priority-preserving projected resource allocation: reproducibility package* (Version 0.3.0). Zenodo. https://doi.org/10.5281/zenodo.23650488
-
-The archived v0.2.0 release contains the experimental software, manifests and numerical outputs. All 50 archived files were checked against the released Git tree and the package checksum manifest. Manuscript sources and the paper PDF are excluded. Code is MIT; original results and documentation are CC BY 4.0.
-
-The version-specific DOI 10.5281/zenodo.23650488 identifies the complete v0.3.0 snapshot. The concept DOI 10.5281/zenodo.23457661 identifies the version family. The v0.3.0 tag, release assets and Zenodo archive retain the release snapshot. Citation metadata added after DOI assignment is recorded separately on the main branch. Download the release asset for its original checksum-bound snapshot.
+This package contains experiment code, dataset manifests and original numerical results. Editable manuscript sources, bibliographies, journal templates, editorial documents, figure PDFs and precomputed LaTeX table fragments are excluded. Analysis scripts generate the table fragments locally.
